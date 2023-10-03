@@ -1,5 +1,5 @@
 class Todo
-  require 'time'
+  require 'date'
 
   @todo_list = {}
   @task_number = 0
@@ -99,7 +99,7 @@ class Todo
     unless due_date.empty?
       return puts "\nInvalid date" unless valid_date?(due_date)
 
-      due_date = Time.parse(due_date).strftime('%d-%m-%Y')
+      due_date = Date.parse(due_date).strftime('%d-%m-%Y')
       return puts "\nDue date cannot be in the past" if past_date?(due_date)
     end
 
@@ -140,9 +140,9 @@ class Todo
     if field == :due_date && !value.empty?
       return puts "\nInvalid date" unless valid_date?(value)
 
-      value = Time.parse(value).strftime("%d-%m-%Y")
+      value = Date.parse(value).strftime("%d-%m-%Y")
 
-      if Time.parse(value) < Time.parse(get_task(task_number)[:created_date])
+      if Date.parse(value) < Date.parse(get_task(task_number)[:created_date])
         return puts "\nDue date cannot be before task created date" 
       end
     end
@@ -168,7 +168,7 @@ class Todo
 
   # Check if date is valid
   def self.valid_date?(date)
-    Time.parse(date)
+    Date.parse(date)
     true
   rescue
     false
@@ -176,7 +176,7 @@ class Todo
 
   # Check if date is in the past
   def self.past_date?(date)
-    Time.parse(Time.now.to_s) > Time.parse(date)
+    Date.parse(Time.now.to_s) > Date.parse(date)
   end
 
   private_class_method :valid_date?, :past_date?
